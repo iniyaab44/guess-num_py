@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Guess the Number Game</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Guess the Number Game</h1>
+        <form method="POST">
+            <input type="text" name="guess" placeholder="Enter your guess (1-100)" required>
+            <br><br>
+            <button type="submit" class="guess-button">Guess</button>
+            <br><br>
+            <button type="button" class="reset-button" onclick="resetFeedback()">Reset</button>
+        </form>
+        <br><br>
+        <div class="feedback {% if feedback %} {% else %} hidden {% endif %}">
+            <p>{{ feedback }}</p>
+        </div>
+    </div>
+
+    <script>
+        function resetFeedback() {
+            document.querySelector('.feedback').classList.add('hidden'); // Hide feedback
+            document.querySelector('input[name="guess"]').value = ''; // Clear the input field
+            fetch('/reset', { method: 'POST' }); // Send a request to reset feedback
+        }
+    </script>
+</body>
+</html>
